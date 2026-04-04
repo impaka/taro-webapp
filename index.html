@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Выбор карты</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            background: #111;
+            color: #fff;
+            font-family: sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            justify-items: center;
+        }
+
+        .card {
+            width: 100px;
+            height: 160px;
+            background-image: url("back.png");
+            background-size: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid #444;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.6);
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Выбери карту</h2>
+
+<div class="grid" id="cards"></div>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script>
+    const cards = [
+        "major_arcana_fool.png",
+        "major_arcana_magician.png",
+        "major_arcana_priestess.png",
+        "major_arcana_empress.png",
+        "major_arcana_emperor.png",
+        "major_arcana_chariot.png",
+        "major_arcana_star.png",
+        "major_arcana_sun.png",
+        "major_arcana_world.png"
+    ];
+
+    const grid = document.getElementById("cards");
+
+    function isTelegram() {
+        return typeof Telegram !== "undefined" && Telegram.WebApp;
+    }
+
+    cards.forEach(card => {
+        const div = document.createElement("div");
+        div.className = "card";
+
+        div.onclick = () => {
+            const payload = { card };
+
+            if (isTelegram()) {
+                console.log("Sending to Telegram:", payload);
+                Telegram.WebApp.sendData(JSON.stringify(payload));
+            } else {
+                console.log("Browser click:", payload);
+                alert("Клик по карте: " + card + "\n(в Telegram это отправится боту)");
+            }
+        };
+
+        grid.appendChild(div);
+    });
+
+    if (isTelegram()) {
+        Telegram.WebApp.ready();
+    } else {
+        console.log("Запущено в браузере — режим теста.");
+    }
+</script>
+
+</body>
+</html>
