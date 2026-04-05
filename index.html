@@ -92,115 +92,61 @@
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
- // Все карты (78 файлов)
+// --- ВСЕ КАРТЫ ---
 const cards = [
-    // Major Arcana
-    "major_arcana_fool.png",
-    "major_arcana_magician.png",
-    "major_arcana_priestess.png",
-    "major_arcana_empress.png",
-    "major_arcana_emperor.png",
-    "major_arcana_hierophant.png",
-    "major_arcana_lovers.png",
-    "major_arcana_chariot.png",
-    "major_arcana_strength.png",
-    "major_arcana_hermit.png",
-    "major_arcana_fortune.png",
-    "major_arcana_justice.png",
-    "major_arcana_hanged.png",
-    "major_arcana_death.png",
-    "major_arcana_temperance.png",
-    "major_arcana_devil.png",
-    "major_arcana_tower.png",
-    "major_arcana_star.png",
-    "major_arcana_moon.png",
-    "major_arcana_sun.png",
-    "major_arcana_judgement.png",
+    "major_arcana_fool.png","major_arcana_magician.png","major_arcana_priestess.png",
+    "major_arcana_empress.png","major_arcana_emperor.png","major_arcana_hierophant.png",
+    "major_arcana_lovers.png","major_arcana_chariot.png","major_arcana_strength.png",
+    "major_arcana_hermit.png","major_arcana_fortune.png","major_arcana_justice.png",
+    "major_arcana_hanged.png","major_arcana_death.png","major_arcana_temperance.png",
+    "major_arcana_devil.png","major_arcana_tower.png","major_arcana_star.png",
+    "major_arcana_moon.png","major_arcana_sun.png","major_arcana_judgement.png",
     "major_arcana_world.png",
 
-    // Minor Arcana — Cups
-    "minor_arcana_cups_ace.png",
-    "minor_arcana_cups_2.png",
-    "minor_arcana_cups_3.png",
-    "minor_arcana_cups_4.png",
-    "minor_arcana_cups_5.png",
-    "minor_arcana_cups_6.png",
-    "minor_arcana_cups_7.png",
-    "minor_arcana_cups_8.png",
-    "minor_arcana_cups_9.png",
-    "minor_arcana_cups_10.png",
-    "minor_arcana_cups_page.png",
-    "minor_arcana_cups_knight.png",
-    "minor_arcana_cups_queen.png",
-    "minor_arcana_cups_king.png",
+    "minor_arcana_cups_ace.png","minor_arcana_cups_2.png","minor_arcana_cups_3.png",
+    "minor_arcana_cups_4.png","minor_arcana_cups_5.png","minor_arcana_cups_6.png",
+    "minor_arcana_cups_7.png","minor_arcana_cups_8.png","minor_arcana_cups_9.png",
+    "minor_arcana_cups_10.png","minor_arcana_cups_page.png","minor_arcana_cups_knight.png",
+    "minor_arcana_cups_queen.png","minor_arcana_cups_king.png",
 
-    // Pentacles
-    "minor_arcana_pentacles_ace.png",
-    "minor_arcana_pentacles_2.png",
-    "minor_arcana_pentacles_3.png",
-    "minor_arcana_pentacles_4.png",
-    "minor_arcana_pentacles_5.png",
-    "minor_arcana_pentacles_6.png",
-    "minor_arcana_pentacles_7.png",
-    "minor_arcana_pentacles_8.png",
-    "minor_arcana_pentacles_9.png",
-    "minor_arcana_pentacles_10.png",
-    "minor_arcana_pentacles_page.png",
-    "minor_arcana_pentacles_knight.png",
-    "minor_arcana_pentacles_queen.png",
-    "minor_arcana_pentacles_king.png",
+    "minor_arcana_pentacles_ace.png","minor_arcana_pentacles_2.png","minor_arcana_pentacles_3.png",
+    "minor_arcana_pentacles_4.png","minor_arcana_pentacles_5.png","minor_arcana_pentacles_6.png",
+    "minor_arcana_pentacles_7.png","minor_arcana_pentacles_8.png","minor_arcana_pentacles_9.png",
+    "minor_arcana_pentacles_10.png","minor_arcana_pentacles_page.png","minor_arcana_pentacles_knight.png",
+    "minor_arcana_pentacles_queen.png","minor_arcana_pentacles_king.png",
 
-    // Swords
-    "minor_arcana_swords_ace.png",
-    "minor_arcana_swords_2.png",
-    "minor_arcana_swords_3.png",
-    "minor_arcana_swords_4.png",
-    "minor_arcana_swords_5.png",
-    "minor_arcana_swords_6.png",
-    "minor_arcana_swords_7.png",
-    "minor_arcana_swords_8.png",
-    "minor_arcana_swords_9.png",
-    "minor_arcana_swords_10.png",
-    "minor_arcana_swords_page.png",
-    "minor_arcana_swords_knight.png",
-    "minor_arcana_swords_queen.png",
-    "minor_arcana_swords_king.png",
+    "minor_arcana_swords_ace.png","minor_arcana_swords_2.png","minor_arcana_swords_3.png",
+    "minor_arcana_swords_4.png","minor_arcana_swords_5.png","minor_arcana_swords_6.png",
+    "minor_arcana_swords_7.png","minor_arcana_swords_8.png","minor_arcana_swords_9.png",
+    "minor_arcana_swords_10.png","minor_arcana_swords_page.png","minor_arcana_swords_knight.png",
+    "minor_arcana_swords_queen.png","minor_arcana_swords_king.png",
 
-    // Wands
-    "minor_arcana_wands_ace.png",
-    "minor_arcana_wands_2.png",
-    "minor_arcana_wands_3.png",
-    "minor_arcana_wands_4.png",
-    "minor_arcana_wands_5.png",
-    "minor_arcana_wands_6.png",
-    "minor_arcana_wands_7.png",
-    "minor_arcana_wands_8.png",
-    "minor_arcana_wands_9.png",
-    "minor_arcana_wands_10.png",
-    "minor_arcana_wands_page.png",
-    "minor_arcana_wands_knight.png",
-    "minor_arcana_wands_queen.png",
-    "minor_arcana_wands_king.png"
+    "minor_arcana_wands_ace.png","minor_arcana_wands_2.png","minor_arcana_wands_3.png",
+    "minor_arcana_wands_4.png","minor_arcana_wands_5.png","minor_arcana_wands_6.png",
+    "minor_arcana_wands_7.png","minor_arcana_wands_8.png","minor_arcana_wands_9.png",
+    "minor_arcana_wands_10.png","minor_arcana_wands_page.png","minor_arcana_wands_knight.png",
+    "minor_arcana_wands_queen.png","minor_arcana_wands_king.png"
 ];
 
-// Перемешивание Фишера–Йетса
-// Перемешивание Фишера–Йетса
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
+// --- ПЕРЕМЕШАТЬ ---
+function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+        [arr[i], arr[j]] = [arr[j], arr[i]];
     }
 }
 
-// Берём 6 случайных карт
 shuffle(cards);
-const sixCards = cards.slice(0, 6);
+const sixCards = cards.slice(0, 6); // ← ТОЛЬКО 6 КАРТ
+
+const grid = document.getElementById("cards");
 
 function isTelegram() {
     return typeof Telegram !== "undefined" && Telegram.WebApp;
 }
 
-cards.forEach(card => {
+// --- РЕНДЕР 6 КАРТ ---
+sixCards.forEach(card => {
     const div = document.createElement("div");
     div.className = "card";
 
@@ -225,21 +171,20 @@ cards.forEach(card => {
             const payload = { card };
 
             if (isTelegram()) {
-                console.log("Sending to Telegram:", payload);
                 Telegram.WebApp.sendData(JSON.stringify(payload));
             } else {
                 alert("Вы выбрали: " + card);
             }
-        }, 600); // ждём завершения анимации
+        }, 600);
     };
 
     grid.appendChild(div);
 });
 
-
+// --- НЕ ЗАКРЫВАТЬ WEBAPP ---
 if (isTelegram()) {
     Telegram.WebApp.ready();
-    Telegram.WebApp.enableClosingConfirmation(); // ← ВАЖНО
+    Telegram.WebApp.enableClosingConfirmation();
 }
 
 
