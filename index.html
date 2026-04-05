@@ -238,7 +238,9 @@ cards.forEach(card => {
 
 if (isTelegram()) {
     Telegram.WebApp.ready();
+    Telegram.WebApp.enableClosingConfirmation(); // ← ВАЖНО
 }
+
 
 </script>
 
