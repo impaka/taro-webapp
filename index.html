@@ -6,6 +6,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
+        .card {
+    width: 100px;
+    height: 160px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid #444;
+    transition: transform 0.4s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.card-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 8px;
+    background-size: cover;
+}
+
+.card-back {
+    background-image: url("back.png");
+}
+
+.card-front {
+    transform: rotateY(180deg);
+}
+
         body {
             background: #111;
             color: #fff;
@@ -163,20 +203,38 @@ cards.forEach(card => {
     const div = document.createElement("div");
     div.className = "card";
 
-    div.onclick = () => {
-        const payload = { card };
+    const inner = document.createElement("div");
+    inner.className = "card-inner";
 
-        if (isTelegram()) {
-            console.log("Sending to Telegram:", payload);
-            Telegram.WebApp.sendData(JSON.stringify(payload));
-        } else {
-            console.log("Browser click:", payload);
-            alert("Клик по карте: " + card);
-        }
+    const back = document.createElement("div");
+    back.className = "card-face card-back";
+
+    const front = document.createElement("div");
+    front.className = "card-face card-front";
+    front.style.backgroundImage = `url("cards/${card}")`;
+
+    inner.appendChild(back);
+    inner.appendChild(front);
+    div.appendChild(inner);
+
+    div.onclick = () => {
+        div.classList.add("flipped");
+
+        setTimeout(() => {
+            const payload = { card };
+
+            if (isTelegram()) {
+                console.log("Sending to Telegram:", payload);
+                Telegram.WebApp.sendData(JSON.stringify(payload));
+            } else {
+                alert("Вы выбрали: " + card);
+            }
+        }, 600); // ждём завершения анимации
     };
 
     grid.appendChild(div);
 });
+
 
 if (isTelegram()) {
     Telegram.WebApp.ready();
