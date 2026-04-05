@@ -6,62 +6,87 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
-  .card {
-    width: 100px;
-    height: 160px;
-    border-radius: 8px;
-    cursor: pointer;
-    border: 2px solid #444;
-    transition: transform 0.4s;
-    transform-style: preserve-3d;
-    position: relative;
-}
+        body {
+            background: #111;
+            color: #fff;
+            font-family: sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
 
-.card-inner {
-    width: 100%;
-    height: 100%;
-    transition: transform 0.6s;
-    transform-style: preserve-3d;
-    position: relative;
-}
+        h2 {
+            margin-bottom: 20px;
+        }
 
-.card.flipped .card-inner {
-    transform: rotateY(180deg);
-}
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            justify-items: center;
+        }
 
-.card-face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 8px;
-    background-size: cover;
-}
+        .card {
+            width: 100px;
+            height: 160px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid #444;
+            transform-style: preserve-3d;
+            position: relative;
+        }
 
-.card-back {
-    background-image: url("back.png");
-}
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
 
-.card-front {
-    transform: rotateY(180deg);
-}
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
 
-body {
-    background: #111;
-    color: #fff;
-    font-family: sans-serif;
-    margin: 0;
-    padding: 20px;
-    text-align: center;
-}
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            background-size: cover;
+            background-position: center;
+        }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    justify-items: center;
-}
+        .card-back {
+            background-image: url("back.png");
+        }
 
+        .card-front {
+            transform: rotateY(180deg);
+        }
+
+        .card.selected {
+            box-shadow: 0 0 16px rgba(255, 215, 0, 0.9);
+            border-color: #ffd700;
+        }
+
+        #chooseBtn {
+            margin-top: 24px;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: none;
+            background: #4caf50;
+            color: #fff;
+            cursor: pointer;
+            display: none;
+        }
+
+        #chooseBtn:disabled {
+            opacity: 0.6;
+            cursor: default;
+        }
     </style>
 </head>
 
@@ -70,6 +95,7 @@ body {
 <h2>Выбери карту</h2>
 
 <div class="grid" id="cards"></div>
+<button id="chooseBtn">Выбрать эту карту</button>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
@@ -118,13 +144,17 @@ function shuffle(arr) {
 }
 
 shuffle(cards);
-const sixCards = cards.slice(0, 6); // ← ТОЛЬКО 6 КАРТ
+const sixCards = cards.slice(0, 6); // только 6 карт
 
 const grid = document.getElementById("cards");
+const chooseBtn = document.getElementById("chooseBtn");
 
 function isTelegram() {
     return typeof Telegram !== "undefined" && Telegram.WebApp;
 }
+
+let selectedCard = null;
+let selectedDiv = null;
 
 // --- РЕНДЕР 6 КАРТ ---
 sixCards.forEach(card => {
@@ -146,29 +176,41 @@ sixCards.forEach(card => {
     div.appendChild(inner);
 
     div.onclick = () => {
-        div.classList.add("flipped");
+        if (selectedCard && selectedCard !== card) {
+            return; // уже выбрали другую карту
+        }
 
-        setTimeout(() => {
-            const payload = { card };
-
-            if (isTelegram()) {
-                Telegram.WebApp.sendData(JSON.stringify(payload));
-            } else {
-                alert("Вы выбрали: " + card);
-            }
-        }, 600);
+        if (!selectedCard) {
+            selectedCard = card;
+            selectedDiv = div;
+            div.classList.add("flipped", "selected");
+            chooseBtn.style.display = "inline-block";
+        }
     };
 
     grid.appendChild(div);
 });
 
-// --- НЕ ЗАКРЫВАТЬ WEBAPP ---
+// --- КНОПКА ВЫБОРА ---
+chooseBtn.onclick = () => {
+    if (!selectedCard) return;
+
+    chooseBtn.disabled = true;
+
+    const payload = { card: selectedCard };
+
+    if (isTelegram()) {
+        Telegram.WebApp.sendData(JSON.stringify(payload));
+    } else {
+        alert("Вы выбрали: " + selectedCard);
+        chooseBtn.disabled = false;
+    }
+};
+
+// --- ИНИЦИАЛИЗАЦИЯ TELEGRAM WEBAPP ---
 if (isTelegram()) {
     Telegram.WebApp.ready();
-    Telegram.WebApp.enableClosingConfirmation();
 }
-
-
 </script>
 
 </body>
