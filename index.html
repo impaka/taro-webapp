@@ -66,12 +66,12 @@
             transform: rotateY(180deg);
         }
 
-        .card.selected {
+        .selected {
             box-shadow: 0 0 16px rgba(255, 215, 0, 0.9);
             border-color: #ffd700;
         }
 
-        #chooseBtn {
+        #confirmBtn {
             margin-top: 24px;
             padding: 12px 20px;
             font-size: 16px;
@@ -83,7 +83,7 @@
             display: none;
         }
 
-        #chooseBtn:disabled {
+        #confirmBtn:disabled {
             opacity: 0.6;
             cursor: default;
         }
@@ -92,10 +92,10 @@
 
 <body>
 
-<h2>Выбери карту</h2>
+<h2 id="statusText">Выберите 3 карты</h2>
 
 <div class="grid" id="cards"></div>
-<button id="chooseBtn">Выбрать эту карту</button>
+<button id="confirmBtn">Подтвердить выбор</button>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
@@ -144,19 +144,15 @@ function shuffle(arr) {
 }
 
 shuffle(cards);
-const sixCards = cards.slice(0, 6); // только 6 карт
+const sixCards = cards.slice(0, 6);
 
 const grid = document.getElementById("cards");
-const chooseBtn = document.getElementById("chooseBtn");
+const confirmBtn = document.getElementById("confirmBtn");
+const statusText = document.getElementById("statusText");
 
-function isTelegram() {
-    return typeof Telegram !== "undefined" && Telegram.WebApp;
-}
+let selected = [];
 
-let selectedCard = null;
-let selectedDiv = null;
-
-// --- РЕНДЕР 6 КАРТ ---
+// --- РЕНДЕР ---
 sixCards.forEach(card => {
     const div = document.createElement("div");
     div.className = "card";
@@ -176,41 +172,36 @@ sixCards.forEach(card => {
     div.appendChild(inner);
 
     div.onclick = () => {
-        if (selectedCard && selectedCard !== card) {
-            return; // уже выбрали другую карту
-        }
+        if (selected.length >= 3) return;
+        if (div.classList.contains("selected")) return;
 
-        if (!selectedCard) {
-            selectedCard = card;
-            selectedDiv = div;
-            div.classList.add("flipped", "selected");
-            chooseBtn.style.display = "inline-block";
+        div.classList.add("flipped", "selected");
+        selected.push(card);
+
+        const left = 3 - selected.length;
+        statusText.textContent = left > 0
+            ? `Осталось выбрать: ${left}`
+            : "Вы выбрали 3 карты";
+
+        if (selected.length === 3) {
+            confirmBtn.style.display = "inline-block";
         }
     };
 
     grid.appendChild(div);
 });
 
-// --- КНОПКА ВЫБОРА ---
-chooseBtn.onclick = () => {
-    if (!selectedCard) return;
+// --- ОТПРАВКА ---
+confirmBtn.onclick = () => {
+    confirmBtn.disabled = true;
 
-    chooseBtn.disabled = true;
+    const payload = { cards: selected };
 
-    const payload = { card: selectedCard };
-
-    if (isTelegram()) {
-        Telegram.WebApp.sendData(JSON.stringify(payload));
-    } else {
-        alert("Вы выбрали: " + selectedCard);
-        chooseBtn.disabled = false;
-    }
+    Telegram.WebApp.sendData(JSON.stringify(payload));
 };
 
-// --- ИНИЦИАЛИЗАЦИЯ TELEGRAM WEBAPP ---
-if (isTelegram()) {
-    Telegram.WebApp.ready();
-}
+// --- INIT ---
+Telegram.WebApp.ready();
 </script>
 
 </body>
