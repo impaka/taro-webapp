@@ -184,6 +184,7 @@ const cards = [
 ];
 
 // Перемешивание Фишера–Йетса
+// Перемешивание Фишера–Йетса
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -191,9 +192,9 @@ function shuffle(array) {
     }
 }
 
-shuffle(cards); // ← теперь порядок всегда случайный
-
-const grid = document.getElementById("cards");
+// Берём 6 случайных карт
+shuffle(cards);
+const sixCards = cards.slice(0, 6);
 
 function isTelegram() {
     return typeof Telegram !== "undefined" && Telegram.WebApp;
