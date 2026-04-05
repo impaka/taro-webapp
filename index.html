@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
-        .card {
+  .card {
     width: 100px;
     height: 160px;
     border-radius: 8px;
@@ -46,41 +46,22 @@
     transform: rotateY(180deg);
 }
 
-        body {
-            background: #111;
-            color: #fff;
-            font-family: sans-serif;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-        }
+body {
+    background: #111;
+    color: #fff;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
 
-        h2 {
-            margin-bottom: 20px;
-        }
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    justify-items: center;
+}
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            justify-items: center;
-        }
-
-        .card {
-            width: 100px;
-            height: 160px;
-            background-image: url("back.png");
-            background-size: cover;
-            border-radius: 8px;
-            cursor: pointer;
-            border: 2px solid #444;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-4px) scale(1.03);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.6);
-        }
     </style>
 </head>
 
