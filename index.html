@@ -109,7 +109,20 @@
 <h2 id="statusText">Введите вопрос и выберите 3 карты</h2>
 
 <!-- ВАЖНО: input теперь точно виден -->
-<input id="questionInput" placeholder="Введите ваш вопрос..." />
+<input id="questionInput" 
+       placeholder="Введите ваш вопрос..." 
+       style="
+           width: 90%;
+           padding: 14px;
+           margin: 20px auto;
+           border-radius: 10px;
+           border: 2px solid #555;
+           background: #1c1c1c;
+           color: #fff;
+           font-size: 16px;
+           display: block;
+           box-sizing: border-box;
+       ">
 
 <div class="grid" id="cards"></div>
 <button id="confirmBtn">Подтвердить выбор</button>
