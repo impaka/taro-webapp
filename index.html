@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Выбор карты</title>
+    <title>Выбор карт Таро</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
@@ -16,7 +16,20 @@
         }
 
         h2 {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
+        }
+
+        /* ВАЖНО: фон + padding, чтобы input был виден */
+        #questionInput {
+            width: 90%;
+            padding: 12px;
+            margin: 0 auto 20px auto;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            display: block;
+            background: #222;
+            color: #fff;
         }
 
         .grid {
@@ -24,6 +37,7 @@
             grid-template-columns: repeat(3, 1fr);
             gap: 12px;
             justify-items: center;
+            margin-top: 10px;
         }
 
         .card {
@@ -92,7 +106,10 @@
 
 <body>
 
-<h2 id="statusText">Выберите 3 карты</h2>
+<h2 id="statusText">Введите вопрос и выберите 3 карты</h2>
+
+<!-- ВАЖНО: input теперь точно виден -->
+<input id="questionInput" placeholder="Введите ваш вопрос..." />
 
 <div class="grid" id="cards"></div>
 <button id="confirmBtn">Подтвердить выбор</button>
@@ -195,7 +212,12 @@ sixCards.forEach(card => {
 confirmBtn.onclick = () => {
     confirmBtn.disabled = true;
 
-    const payload = { cards: selected };
+    const question = document.getElementById("questionInput").value.trim();
+
+    const payload = { 
+        cards: selected,
+        question: question
+    };
 
     Telegram.WebApp.sendData(JSON.stringify(payload));
 };
